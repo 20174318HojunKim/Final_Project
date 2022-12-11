@@ -23,6 +23,14 @@ class SelfDrive(Node):
 
     def subscribe_scan(self, scan):
         twist = Twist()
+        if (0 < scan.ranges[350] < 0.25 or 0 < scan.ranges[10] < 0.25 or 0 < scan.ranges[0] < 0.25) or (0 < scan.ranges[340] < 0.25 or 0 < scan.ranges[20] < 0.25):
+            twist.linear.x = 0.
+            twist.angular.z = -1.5
+            self.get_logger().info(f"scan: {scan.ranges[0]}, stop and turning")
+        elif scan.ranges[0] > 0.25 and scan.ranges[90] > 0.25 and scan.ranges[270] > 0.25:
+            twist.linear.x = 0.2
+            twist.angular.z = 0.
+            self.get_logger().info(f"scan: {scan.ranges[0]}, forward")
         self.pub_velo.publish(twist)
 
 def main(args=None):
