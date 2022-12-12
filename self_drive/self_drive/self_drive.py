@@ -35,6 +35,9 @@ class SelfDrive(Node):
             if (0 < scan.ranges[45] < 0.18 or 0 < scan.ranges[55] < 0.18 or 0 < scan.ranges[35] < 0.18 or 0 < scan.ranges[25] < 0.18):
                 twist.linear.x = 0.2
                 twist.angular.z = -0.22
+            elif (scan.ranges[90] > 0.15 or 0 > scan.ranges[80] > 0.16 or scan.ranges[70] > 0.17 or scan.ranges[60] > 0.18) or (scan.ranges[50] > 0.2 or 0 > scan.ranges[40] > 0.2):
+                twist.linear.x = 0.2
+                twist.angular.z = 0.22
         self.pub_velo.publish(twist)
 
 def main(args=None):
