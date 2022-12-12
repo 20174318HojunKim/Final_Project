@@ -44,6 +44,13 @@ class SelfDrive(Node):
                 twist.angular.z = 0.
             if  scan.ranges[60] > 0.25 or scan.ranges[50] > 0.25 or scan.ranges[40] > 0.25:
                 turning = True
+            if turning:
+                if (0 < scan.ranges[145] < 0.25 or 0 < scan.ranges[135] < 0.25 or 0 < scan.ranges[125] < 0.25) or (0 < scan.ranges[115] < 0.25 or 0 < scan.ranges[105] < 0.25 or 0 < scan.ranges[95] < 0.25) or (0 < scan.ranges[85] < 0.25 or 0 < scan.ranges[75] < 0.25 or 0 < scan.ranges[65] < 0.25) or (0 < scan.ranges[55] < 0.25 or 0 < scan.ranges[45] < 0.25):
+                    twist.linear.x = 0.2
+                    twist.angular.z = 1.5
+                    self.get_logger().info(f"scan: {scan.ranges[0]}, turning")
+                else:
+                    turning = False
         self.pub_velo.publish(twist)
 
 def main(args=None):
